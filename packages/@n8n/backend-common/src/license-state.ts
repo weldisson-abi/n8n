@@ -56,15 +56,15 @@ export class LicenseState {
 	}
 
 	isLdapLicensed() {
-		return this.isLicensed('feat:ldap');
+		return true; // Always enabled - SSO features unlocked
 	}
 
 	isSamlLicensed() {
-		return this.isLicensed('feat:saml');
+		return true; // Always enabled - SSO features unlocked
 	}
 
 	isOidcLicensed() {
-		return this.isLicensed('feat:oidc');
+		return true; // Always enabled - SSO features unlocked
 	}
 
 	isMFAEnforcementLicensed() {

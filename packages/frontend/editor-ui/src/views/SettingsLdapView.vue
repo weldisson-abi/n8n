@@ -618,23 +618,16 @@ onMounted(async () => {
 					{{ i18n.baseText('settings.ldap') }}
 				</n8n-heading>
 			</div>
-			<div :class="$style.docsInfoTip">
-				<n8n-info-tip theme="info" type="note">
-					<span v-n8n-html="i18n.baseText('settings.ldap.infoTip')"></span>
+			<div data-test-id="ldap-content-licensed">
+				<n8n-info-tip :bold="false">
+					{{ i18n.baseText('settings.ldap.infoTip') }}
 				</n8n-info-tip>
-			</div>
-			<div :class="$style.settingsForm">
-				<n8n-form-inputs
-					v-if="formInputs"
-					ref="ldapConfigFormRef"
-					:inputs="formInputs"
-					:event-bus="formBus"
-					:column-view="true"
-					vertical-spacing="l"
-					@update="onInput"
-					@ready="onReadyToSubmit"
-					@submit="onSubmit"
-				/>
+
+				<div :class="$style.settingsForm">
+					<n8n-input-label :label="i18n.baseText('settings.ldap.serverUrl')">
+						<n8n-input v-model="adConfig.serverUrl" size="large" data-test-id="ldap-server-url" />
+					</n8n-input-label>
+				</div>
 			</div>
 			<div>
 				<n8n-button

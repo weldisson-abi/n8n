@@ -347,9 +347,9 @@ export class FrontendService {
 		Object.assign(this.settings.enterprise, {
 			sharing: this.license.isSharingEnabled(),
 			logStreaming: this.license.isLogStreamingEnabled(),
-			ldap: this.license.isLdapEnabled(),
-			saml: this.license.isSamlEnabled(),
-			oidc: this.licenseState.isOidcLicensed(),
+			ldap: true, // Always enabled - SSO features unlocked
+			saml: true, // Always enabled - SSO features unlocked
+			oidc: true, // Always enabled - SSO features unlocked
 			mfaEnforcement: this.licenseState.isMFAEnforcementLicensed(),
 			advancedExecutionFilters: this.license.isAdvancedExecutionFiltersEnabled(),
 			variables: this.license.isVariablesEnabled(),
@@ -366,25 +366,20 @@ export class FrontendService {
 			workflowDiffs: this.licenseState.isWorkflowDiffsLicensed(),
 		});
 
-		if (this.license.isLdapEnabled()) {
-			Object.assign(this.settings.sso.ldap, {
-				loginLabel: getLdapLoginLabel(),
-				loginEnabled: this.globalConfig.sso.ldap.loginEnabled,
-			});
-		}
+		// Always enable SSO configurations since we're bypassing license checks
+		Object.assign(this.settings.sso.ldap, {
+			loginLabel: getLdapLoginLabel(),
+			loginEnabled: this.globalConfig.sso.ldap.loginEnabled,
+		});
 
-		if (this.license.isSamlEnabled()) {
-			Object.assign(this.settings.sso.saml, {
-				loginLabel: getSamlLoginLabel(),
-				loginEnabled: this.globalConfig.sso.saml.loginEnabled,
-			});
-		}
+		Object.assign(this.settings.sso.saml, {
+			loginLabel: getSamlLoginLabel(),
+			loginEnabled: this.globalConfig.sso.saml.loginEnabled,
+		});
 
-		if (this.licenseState.isOidcLicensed()) {
-			Object.assign(this.settings.sso.oidc, {
-				loginEnabled: this.globalConfig.sso.oidc.loginEnabled,
-			});
-		}
+		Object.assign(this.settings.sso.oidc, {
+			loginEnabled: this.globalConfig.sso.oidc.loginEnabled,
+		});
 
 		if (this.license.isVariablesEnabled()) {
 			this.settings.variables.limit = this.license.getVariablesLimit();

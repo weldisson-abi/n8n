@@ -2,7 +2,6 @@
 import CopyInput from '@/components/CopyInput.vue';
 import { useDocumentTitle } from '@/composables/useDocumentTitle';
 import { useMessage } from '@/composables/useMessage';
-import { usePageRedirectionHelper } from '@/composables/usePageRedirectionHelper';
 import { useTelemetry } from '@/composables/useTelemetry';
 import { useToast } from '@/composables/useToast';
 import { MODAL_CONFIRM } from '@/constants';
@@ -23,7 +22,6 @@ const ssoStore = useSSOStore();
 const message = useMessage();
 const toast = useToast();
 const documentTitle = useDocumentTitle();
-const pageRedirectionHelper = usePageRedirectionHelper();
 
 const ssoActivatedLabel = computed(() =>
 	ssoStore.isSamlLoginEnabled
@@ -44,9 +42,7 @@ const options = computed(() => {
 			value: SupportedProtocols.SAML,
 		},
 		{
-			label: ssoStore.isEnterpriseOidcEnabled
-				? SupportedProtocols.OIDC.toUpperCase()
-				: `${SupportedProtocols.OIDC.toUpperCase()} (${i18n.baseText('generic.upgradeToEnterprise')})`,
+			label: SupportedProtocols.OIDC.toUpperCase(), // Always show as available - SSO features unlocked
 			value: SupportedProtocols.OIDC,
 		},
 	];
@@ -98,32 +94,44 @@ const isTestEnabled = computed(() => {
 	return false;
 });
 
-async function loadSamlConfig() {
-	if (!ssoStore.isEnterpriseSamlEnabled) {
-		return;
-	}
+const loadSamlConfig = async () => {
+	// SSO features are always enabled - no license check needed
 	try {
-		await getSamlConfig();
+		await ssoStore.getSamlConfig();
+		ssoSettingsSaved.value = !!ssoStore.samlConfig;
+
+		if (ssoStore.samlConfig && ssoStore.samlConfig.metadataUrl) {
+			ipsType.value = IdentityProviderSettingsType.URL;
+			metadataUrl.value = ssoStore.samlConfig.metadataUrl;
+		} else if (ssoStore.samlConfig && ssoStore.samlConfig.metadata) {
+			ipsType.value = IdentityProviderSettingsType.XML;
+			metadata.value = ssoStore.samlConfig.metadata;
+		}
+
+		if (ssoStore.samlConfig && ssoStore.samlConfig.entityID) {
+			entityId.value = ssoStore.samlConfig.entityID;
+		}
+
+		if (ssoStore.samlConfig && ssoStore.samlConfig.returnUrl) {
+			redirectUrl.value = ssoStore.samlConfig.returnUrl;
+		}
 	} catch (error) {
-		toast.showError(error, 'error');
+		// Configuration may not be set up yet, this is OK
 	}
-}
+};
 
-const getSamlConfig = async () => {
-	const config = await ssoStore.getSamlConfig();
-
-	entityId.value = config?.entityID;
-	redirectUrl.value = config?.returnUrl;
-
-	if (config?.metadataUrl) {
-		ipsType.value = IdentityProviderSettingsType.URL;
-	} else if (config?.metadata) {
-		ipsType.value = IdentityProviderSettingsType.XML;
+const loadOidcConfig = async () => {
+	// SSO features are always enabled - no license check needed
+	try {
+		await ssoStore.getOidcConfig();
+		if (ssoStore.oidc?.config) {
+			discoveryEndpoint.value = ssoStore.oidc.config.discoveryUrl || '';
+			clientId.value = ssoStore.oidc.config.clientId || '';
+			clientSecret.value = ssoStore.oidc.config.clientSecret || '';
+		}
+	} catch (error) {
+		// Configuration may not be set up yet, this is OK
 	}
-
-	metadata.value = config?.metadata;
-	metadataUrl.value = config?.metadataUrl;
-	ssoSettingsSaved.value = !!config?.metadata;
 };
 
 const trackUpdateSettings = () => {
@@ -215,10 +223,6 @@ const validateInput = () => {
 	}
 };
 
-const goToUpgrade = () => {
-	void pageRedirectionHelper.goToUpgrade('sso', 'upgrade-sso');
-};
-
 const isToggleSsoDisabled = computed(() => {
 	/** Allow users to disable SSO even if config request fails */
 	if (ssoStore.isSamlLoginEnabled) {
@@ -234,25 +238,6 @@ onMounted(async () => {
 	ssoStore.initializeSelectedProtocol();
 	authProtocol.value = ssoStore.selectedAuthProtocol || SupportedProtocols.SAML;
 });
-
-const getOidcConfig = async () => {
-	const config = await ssoStore.getOidcConfig();
-
-	clientId.value = config.clientId;
-	clientSecret.value = config.clientSecret;
-	discoveryEndpoint.value = config.discoveryEndpoint;
-};
-
-async function loadOidcConfig() {
-	if (!ssoStore.isEnterpriseOidcEnabled) {
-		return;
-	}
-	try {
-		await getOidcConfig();
-	} catch (error) {
-		toast.showError(error, 'error');
-	}
-}
 
 function onAuthProtocolUpdated(value: SupportedProtocolType) {
 	authProtocol.value = value;
@@ -317,11 +302,7 @@ async function onOidcSettingsSave() {
 				{{ i18n.baseText('settings.sso.info.link') }}
 			</a>
 		</n8n-info-tip>
-		<div
-			v-if="ssoStore.isEnterpriseSamlEnabled || ssoStore.isEnterpriseOidcEnabled"
-			data-test-id="sso-auth-protocol-select"
-			:class="$style.group"
-		>
+		<div data-test-id="sso-auth-protocol-select" :class="$style.group">
 			<label>Select Authentication Protocol</label>
 			<div>
 				<N8nSelect
@@ -343,7 +324,7 @@ async function onOidcSettingsSave() {
 			</div>
 		</div>
 		<div v-if="authProtocol === SupportedProtocols.SAML">
-			<div v-if="ssoStore.isEnterpriseSamlEnabled" data-test-id="sso-content-licensed">
+			<div data-test-id="sso-content-licensed">
 				<div :class="$style.group">
 					<label>{{ i18n.baseText('settings.sso.settings.redirectUrl.label') }}</label>
 					<CopyInput
@@ -389,10 +370,7 @@ async function onOidcSettingsSave() {
 						<small>{{ i18n.baseText('settings.sso.settings.ips.xml.help') }}</small>
 					</div>
 					<div :class="$style.group">
-						<n8n-tooltip
-							v-if="ssoStore.isEnterpriseSamlEnabled"
-							:disabled="ssoStore.isSamlLoginEnabled || ssoSettingsSaved"
-						>
+						<n8n-tooltip :disabled="ssoStore.isSamlLoginEnabled || ssoSettingsSaved">
 							<template #content>
 								<span>
 									{{ i18n.baseText('settings.sso.activation.tooltip') }}
@@ -432,21 +410,9 @@ async function onOidcSettingsSave() {
 					{{ i18n.baseText('settings.sso.settings.footer.hint') }}
 				</footer>
 			</div>
-			<n8n-action-box
-				v-else
-				data-test-id="sso-content-unlicensed"
-				:class="$style.actionBox"
-				:description="i18n.baseText('settings.sso.actionBox.description')"
-				:button-text="i18n.baseText('settings.sso.actionBox.buttonText')"
-				@click:button="goToUpgrade"
-			>
-				<template #heading>
-					<span>{{ i18n.baseText('settings.sso.actionBox.title') }}</span>
-				</template>
-			</n8n-action-box>
 		</div>
 		<div v-if="authProtocol === SupportedProtocols.OIDC">
-			<div v-if="ssoStore.isEnterpriseOidcEnabled">
+			<div>
 				<div :class="$style.group">
 					<label>Redirect URL</label>
 					<CopyInput
@@ -512,17 +478,6 @@ async function onOidcSettingsSave() {
 					</n8n-button>
 				</div>
 			</div>
-			<n8n-action-box
-				v-else
-				data-test-id="sso-content-unlicensed"
-				:class="$style.actionBox"
-				:button-text="i18n.baseText('settings.sso.actionBox.buttonText')"
-				@click:button="goToUpgrade"
-			>
-				<template #heading>
-					<span>{{ i18n.baseText('settings.sso.actionBox.title') }}</span>
-				</template>
-			</n8n-action-box>
 		</div>
 	</div>
 </template>

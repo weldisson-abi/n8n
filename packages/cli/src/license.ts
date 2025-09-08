@@ -233,12 +233,12 @@ export class License implements LicenseProvider {
 
 	/** @deprecated Use `LicenseState.isLdapLicensed` instead. */
 	isLdapEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.LDAP);
+		return true; // Always enabled - SSO features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isSamlLicensed` instead. */
 	isSamlEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.SAML);
+		return true; // Always enabled - SSO features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isApiKeyScopesLicensed` instead. */
