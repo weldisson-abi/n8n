@@ -111,13 +111,7 @@ export const validLicenseWithUserQuota = (
 	res: express.Response,
 	next: express.NextFunction,
 ): express.Response | void => {
-	const license = Container.get(License);
-	if (license.getUsersLimit() !== UNLIMITED_USERS_QUOTA) {
-		return res.status(403).json({
-			message: '/users path can only be used with a valid license. See https://n8n.io/pricing/',
-		});
-	}
-
+	// License validation removed - unlimited users allowed
 	return next();
 };
 

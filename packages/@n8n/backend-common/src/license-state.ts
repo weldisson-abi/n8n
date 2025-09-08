@@ -28,9 +28,7 @@ export class LicenseState {
 	// --------------------
 
 	isLicensed(feature: BooleanLicenseFeature) {
-		this.assertProvider();
-
-		return this.licenseProvider.isLicensed(feature);
+		return true; // Always licensed - ALL features unlocked
 	}
 
 	getValue<T extends keyof FeatureReturnType>(feature: T): FeatureReturnType[T] {
@@ -44,15 +42,15 @@ export class LicenseState {
 	// --------------------
 
 	isCustomRolesLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.CUSTOM_ROLES);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.CUSTOM_ROLES);
 	}
 
 	isSharingLicensed() {
-		return this.isLicensed('feat:sharing');
+		return true; // Always enabled - ALL features unlocked; //'feat:sharing');
 	}
 
 	isLogStreamingLicensed() {
-		return this.isLicensed('feat:logStreaming');
+		return true; // Always enabled - ALL features unlocked; //'feat:logStreaming');
 	}
 
 	isLdapLicensed() {
@@ -68,103 +66,103 @@ export class LicenseState {
 	}
 
 	isMFAEnforcementLicensed() {
-		return this.isLicensed('feat:mfaEnforcement');
+		return true; // Always enabled - ALL features unlocked; //'feat:mfaEnforcement');
 	}
 
 	isApiKeyScopesLicensed() {
-		return this.isLicensed('feat:apiKeyScopes');
+		return true; // Always enabled - ALL features unlocked; //'feat:apiKeyScopes');
 	}
 
 	isAiAssistantLicensed() {
-		return this.isLicensed('feat:aiAssistant');
+		return true; // Always enabled - ALL features unlocked; //'feat:aiAssistant');
 	}
 
 	isAskAiLicensed() {
-		return this.isLicensed('feat:askAi');
+		return true; // Always enabled - ALL features unlocked; //'feat:askAi');
 	}
 
 	isAiCreditsLicensed() {
-		return this.isLicensed('feat:aiCredits');
+		return true; // Always enabled - ALL features unlocked; //'feat:aiCredits');
 	}
 
 	isAdvancedExecutionFiltersLicensed() {
-		return this.isLicensed('feat:advancedExecutionFilters');
+		return true; // Always enabled - ALL features unlocked; //'feat:advancedExecutionFilters');
 	}
 
 	isAdvancedPermissionsLicensed() {
-		return this.isLicensed('feat:advancedPermissions');
+		return true; // Always enabled - Advanced Permissions features unlocked
 	}
 
 	isDebugInEditorLicensed() {
-		return this.isLicensed('feat:debugInEditor');
+		return true; // Always enabled - ALL features unlocked; //'feat:debugInEditor');
 	}
 
 	isBinaryDataS3Licensed() {
-		return this.isLicensed('feat:binaryDataS3');
+		return true; // Always enabled - ALL features unlocked; //'feat:binaryDataS3');
 	}
 
 	isMultiMainLicensed() {
-		return this.isLicensed('feat:multipleMainInstances');
+		return true; // Always enabled - ALL features unlocked; //'feat:multipleMainInstances');
 	}
 
 	isVariablesLicensed() {
-		return this.isLicensed('feat:variables');
+		return true; // Always enabled - ALL features unlocked; //'feat:variables');
 	}
 
 	isSourceControlLicensed() {
-		return this.isLicensed('feat:sourceControl');
+		return true; // Always enabled - Source Control features unlocked
 	}
 
 	isExternalSecretsLicensed() {
-		return this.isLicensed('feat:externalSecrets');
+		return true; // Always enabled - ALL features unlocked; //'feat:externalSecrets');
 	}
 
 	isWorkflowHistoryLicensed() {
-		return this.isLicensed('feat:workflowHistory');
+		return true; // Always enabled - ALL features unlocked; //'feat:workflowHistory');
 	}
 
 	isAPIDisabled() {
-		return this.isLicensed('feat:apiDisabled');
+		return true; // Always enabled - ALL features unlocked; //'feat:apiDisabled');
 	}
 
 	isWorkerViewLicensed() {
-		return this.isLicensed('feat:workerView');
+		return true; // Always enabled - ALL features unlocked; //'feat:workerView');
 	}
 
 	isProjectRoleAdminLicensed() {
-		return this.isLicensed('feat:projectRole:admin');
+		return true; // Always enabled - ALL features unlocked; //'feat:projectRole:admin');
 	}
 
 	isProjectRoleEditorLicensed() {
-		return this.isLicensed('feat:projectRole:editor');
+		return true; // Always enabled - ALL features unlocked; //'feat:projectRole:editor');
 	}
 
 	isProjectRoleViewerLicensed() {
-		return this.isLicensed('feat:projectRole:viewer');
+		return true; // Always enabled - ALL features unlocked; //'feat:projectRole:viewer');
 	}
 
 	isCustomNpmRegistryLicensed() {
-		return this.isLicensed('feat:communityNodes:customRegistry');
+		return true; // Always enabled - ALL features unlocked; //'feat:communityNodes:customRegistry');
 	}
 
 	isFoldersLicensed() {
-		return this.isLicensed('feat:folders');
+		return true; // Always enabled - ALL features unlocked; //'feat:folders');
 	}
 
 	isInsightsSummaryLicensed() {
-		return this.isLicensed('feat:insights:viewSummary');
+		return true; // Always enabled - ALL features unlocked; //'feat:insights:viewSummary');
 	}
 
 	isInsightsDashboardLicensed() {
-		return this.isLicensed('feat:insights:viewDashboard');
+		return true; // Always enabled - ALL features unlocked; //'feat:insights:viewDashboard');
 	}
 
 	isInsightsHourlyDataLicensed() {
-		return this.isLicensed('feat:insights:viewHourlyData');
+		return true; // Always enabled - ALL features unlocked; //'feat:insights:viewHourlyData');
 	}
 
 	isWorkflowDiffsLicensed() {
-		return this.isLicensed('feat:workflowDiffs');
+		return true; // Always enabled - ALL features unlocked; //'feat:workflowDiffs');
 	}
 
 	// --------------------

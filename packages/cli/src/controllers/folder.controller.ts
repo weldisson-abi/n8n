@@ -57,7 +57,7 @@ export class ProjectController {
 
 	@Post('/')
 	@ProjectScope('folder:create')
-	@Licensed('feat:folders')
+	// License validation removed - folders always enabled
 	async createFolder(
 		req: AuthenticatedRequest<{ projectId: string }>,
 		_res: Response,
@@ -78,7 +78,7 @@ export class ProjectController {
 
 	@Get('/:folderId/tree')
 	@ProjectScope('folder:read')
-	@Licensed('feat:folders')
+	// License validation removed - folders always enabled
 	async getFolderTree(
 		req: AuthenticatedRequest<{ projectId: string; folderId: string }>,
 		_res: Response,
@@ -98,7 +98,7 @@ export class ProjectController {
 
 	@Get('/:folderId/credentials')
 	@ProjectScope('folder:read')
-	@Licensed('feat:folders')
+	// License validation removed - folders always enabled
 	async getFolderUsedCredentials(
 		req: AuthenticatedRequest<{ projectId: string; folderId: string }>,
 		_res: Response,
@@ -122,7 +122,7 @@ export class ProjectController {
 
 	@Patch('/:folderId')
 	@ProjectScope('folder:update')
-	@Licensed('feat:folders')
+	// License validation removed - folders always enabled
 	async updateFolder(
 		req: AuthenticatedRequest<{ projectId: string; folderId: string }>,
 		_res: Response,
@@ -144,7 +144,7 @@ export class ProjectController {
 
 	@Delete('/:folderId')
 	@ProjectScope('folder:delete')
-	@Licensed('feat:folders')
+	// License validation removed - folders always enabled
 	async deleteFolder(
 		req: AuthenticatedRequest<{ projectId: string; folderId: string }>,
 		_res: Response,
@@ -166,7 +166,7 @@ export class ProjectController {
 
 	@Get('/')
 	@ProjectScope('folder:list')
-	@Licensed('feat:folders')
+	// License validation removed - folders always enabled
 	async listFolders(
 		req: AuthenticatedRequest<{ projectId: string }>,
 		res: Response,
@@ -181,7 +181,7 @@ export class ProjectController {
 
 	@Get('/:folderId/content')
 	@ProjectScope('folder:read')
-	@Licensed('feat:folders')
+	// License validation removed - folders always enabled
 	async getFolderContent(req: AuthenticatedRequest<{ projectId: string; folderId: string }>) {
 		const { projectId, folderId } = req.params;
 
@@ -203,7 +203,7 @@ export class ProjectController {
 
 	@Put('/:folderId/transfer')
 	@ProjectScope('folder:move')
-	@Licensed('feat:folders')
+	// License validation removed - folders always enabled
 	async transferFolderToProject(
 		req: AuthenticatedRequest,
 		_res: unknown,

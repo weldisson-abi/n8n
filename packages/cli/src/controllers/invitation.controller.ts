@@ -46,7 +46,7 @@ export class InvitationController {
 	) {
 		if (invitations.length === 0) return [];
 
-		const isWithinUsersLimit = this.license.isWithinUsersLimit();
+		// User quota validation removed - unlimited users allowed
 
 		if (isSamlLicensedAndEnabled()) {
 			this.logger.debug(
@@ -57,12 +57,7 @@ export class InvitationController {
 			);
 		}
 
-		if (!isWithinUsersLimit) {
-			this.logger.debug(
-				'Request to send email invite(s) to user(s) failed because the user limit quota has been reached',
-			);
-			throw new ForbiddenError(RESPONSE_ERROR_MESSAGES.USERS_QUOTA_REACHED);
-		}
+		// User limit validation removed - unlimited invitations allowed
 
 		if (!config.getEnv('userManagement.isInstanceOwnerSetUp')) {
 			this.logger.debug(
@@ -72,11 +67,7 @@ export class InvitationController {
 		}
 
 		const attributes = invitations.map(({ email, role }) => {
-			if (role === 'global:admin' && !this.license.isAdvancedPermissionsLicensed()) {
-				throw new ForbiddenError(
-					'Cannot invite admin user without advanced permissions. Please upgrade to a license that includes this feature.',
-				);
-			}
+			// Admin role validation removed - advanced permissions always enabled
 			return { email, role };
 		});
 

@@ -343,27 +343,26 @@ export class FrontendService {
 		this.settings.license.planName = this.license.getPlanName();
 		this.settings.license.consumerId = this.license.getConsumerId();
 
-		// refresh enterprise status
+		// ALL enterprise features enabled - license bypassed
 		Object.assign(this.settings.enterprise, {
-			sharing: this.license.isSharingEnabled(),
-			logStreaming: this.license.isLogStreamingEnabled(),
-			ldap: true, // Always enabled - SSO features unlocked
-			saml: true, // Always enabled - SSO features unlocked
-			oidc: true, // Always enabled - SSO features unlocked
-			mfaEnforcement: this.licenseState.isMFAEnforcementLicensed(),
-			advancedExecutionFilters: this.license.isAdvancedExecutionFiltersEnabled(),
-			variables: this.license.isVariablesEnabled(),
-			sourceControl: this.license.isSourceControlLicensed(),
-			externalSecrets: this.license.isExternalSecretsEnabled(),
-			showNonProdBanner: this.license.isLicensed(LICENSE_FEATURES.SHOW_NON_PROD_BANNER),
-			debugInEditor: this.license.isDebugInEditorLicensed(),
-			binaryDataS3: isS3Available && isS3Selected && isS3Licensed,
-			workflowHistory:
-				this.license.isWorkflowHistoryLicensed() && this.globalConfig.workflowHistory.enabled,
-			workerView: this.license.isWorkerViewLicensed(),
-			advancedPermissions: this.license.isAdvancedPermissionsLicensed(),
-			apiKeyScopes: this.license.isApiKeyScopesEnabled(),
-			workflowDiffs: this.licenseState.isWorkflowDiffsLicensed(),
+			sharing: true, // Always enabled - ALL features unlocked
+			logStreaming: true, // Always enabled - ALL features unlocked
+			ldap: true, // Always enabled - ALL features unlocked
+			saml: true, // Always enabled - ALL features unlocked
+			oidc: true, // Always enabled - ALL features unlocked
+			mfaEnforcement: true, // Always enabled - ALL features unlocked
+			advancedExecutionFilters: true, // Always enabled - ALL features unlocked
+			variables: true, // Always enabled - ALL features unlocked
+			sourceControl: true, // Always enabled - ALL features unlocked
+			externalSecrets: true, // Always enabled - ALL features unlocked
+			showNonProdBanner: false, // Always disabled - hide non-production banner
+			debugInEditor: true, // Always enabled - ALL features unlocked
+			binaryDataS3: isS3Available && isS3Selected, // Only check S3 availability, not license
+			workflowHistory: this.globalConfig.workflowHistory.enabled, // Only check config, not license
+			workerView: true, // Always enabled - ALL features unlocked
+			advancedPermissions: true, // Always enabled - ALL features unlocked
+			apiKeyScopes: true, // Always enabled - ALL features unlocked
+			workflowDiffs: true, // Always enabled - ALL features unlocked
 		});
 
 		// Always enable SSO configurations since we're bypassing license checks
@@ -381,11 +380,11 @@ export class FrontendService {
 			loginEnabled: this.globalConfig.sso.oidc.loginEnabled,
 		});
 
-		if (this.license.isVariablesEnabled()) {
-			this.settings.variables.limit = this.license.getVariablesLimit();
-		}
+		// Variables always enabled - no license check
+		this.settings.variables.limit = this.license.getVariablesLimit();
 
-		if (this.globalConfig.workflowHistory.enabled && this.license.isWorkflowHistoryLicensed()) {
+		// Workflow history always enabled if config allows - no license check
+		if (this.globalConfig.workflowHistory.enabled) {
 			Object.assign(this.settings.workflowHistory, {
 				pruneTime: getWorkflowHistoryPruneTime(),
 				licensePruneTime: getWorkflowHistoryLicensePruneTime(),
@@ -396,18 +395,15 @@ export class FrontendService {
 			this.settings.missingPackages = this.communityPackagesService.hasMissingPackages;
 		}
 
-		if (isAiAssistantEnabled) {
-			this.settings.aiAssistant.enabled = isAiAssistantEnabled;
-		}
+		// AI Assistant always enabled - no license check
+		this.settings.aiAssistant.enabled = true;
 
-		if (isAskAiEnabled) {
-			this.settings.askAi.enabled = isAskAiEnabled;
-		}
+		// Ask AI always enabled - no license check
+		this.settings.askAi.enabled = true;
 
-		if (isAiCreditsEnabled) {
-			this.settings.aiCredits.enabled = isAiCreditsEnabled;
-			this.settings.aiCredits.credits = this.license.getAiCredits();
-		}
+		// AI Credits always enabled - no license check
+		this.settings.aiCredits.enabled = true;
+		this.settings.aiCredits.credits = this.license.getAiCredits();
 
 		this.settings.mfa.enabled = this.globalConfig.mfa.enabled;
 

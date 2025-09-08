@@ -71,12 +71,7 @@ export class PasswordResetController {
 			return;
 		}
 
-		if (user.role.slug !== GLOBAL_OWNER_ROLE.slug && !this.license.isWithinUsersLimit()) {
-			this.logger.debug(
-				'Request to send password reset email failed because the user limit was reached',
-			);
-			throw new ForbiddenError(RESPONSE_ERROR_MESSAGES.USERS_QUOTA_REACHED);
-		}
+		// User quota validation removed - unlimited users allowed
 
 		if (
 			(isSamlCurrentAuthenticationMethod() || isOidcCurrentAuthenticationMethod()) &&
@@ -147,13 +142,7 @@ export class PasswordResetController {
 		const user = await this.authService.resolvePasswordResetToken(token);
 		if (!user) throw new NotFoundError('');
 
-		if (user.role.slug !== GLOBAL_OWNER_ROLE.slug && !this.license.isWithinUsersLimit()) {
-			this.logger.debug(
-				'Request to resolve password token failed because the user limit was reached',
-				{ userId: user.id },
-			);
-			throw new ForbiddenError(RESPONSE_ERROR_MESSAGES.USERS_QUOTA_REACHED);
-		}
+		// User quota validation removed - unlimited users allowed
 
 		this.logger.info('Reset-password token resolved successfully', { userId: user.id });
 		this.eventService.emit('user-password-reset-email-click', { user });

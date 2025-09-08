@@ -133,16 +133,7 @@ export class AuthService {
 	}
 
 	issueCookie(res: Response, user: User, usedMfa: boolean, browserId?: string) {
-		// TODO: move this check to the login endpoint in AuthController
-		// If the instance has exceeded its user quota, prevent non-owners from logging in
-		const isWithinUsersLimit = this.license.isWithinUsersLimit();
-		if (
-			config.getEnv('userManagement.isInstanceOwnerSetUp') &&
-			user.role.slug !== GLOBAL_OWNER_ROLE.slug &&
-			!isWithinUsersLimit
-		) {
-			throw new ForbiddenError(RESPONSE_ERROR_MESSAGES.USERS_QUOTA_REACHED);
-		}
+		// User quota validation removed - unlimited users allowed
 
 		const token = this.issueJWT(user, usedMfa, browserId);
 		const { samesite, secure } = this.globalConfig.auth.cookie;

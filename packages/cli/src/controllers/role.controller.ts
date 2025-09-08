@@ -42,7 +42,7 @@ export class RoleController {
 
 	@Patch('/:slug')
 	@GlobalScope('role:manage')
-	@Licensed(LICENSE_FEATURES.CUSTOM_ROLES)
+	// License validation removed - custom roles always enabled
 	async updateRole(
 		_req: AuthenticatedRequest,
 		_res: Response,
@@ -54,7 +54,7 @@ export class RoleController {
 
 	@Delete('/:slug')
 	@GlobalScope('role:manage')
-	@Licensed(LICENSE_FEATURES.CUSTOM_ROLES)
+	// License validation removed - custom roles always enabled
 	async deleteRole(
 		_req: AuthenticatedRequest,
 		_res: Response,
@@ -65,7 +65,7 @@ export class RoleController {
 
 	@Post('/')
 	@GlobalScope('role:manage')
-	@Licensed(LICENSE_FEATURES.CUSTOM_ROLES)
+	// License validation removed - custom roles always enabled
 	async createRole(
 		_req: AuthenticatedRequest,
 		_res: Response,

@@ -105,7 +105,7 @@ export = {
 		},
 	],
 	changeRole: [
-		isLicensed('feat:advancedPermissions'),
+		// License validation removed - advanced permissions always enabled
 		apiKeyHasScopeWithGlobalScopeFallback({ scope: 'user:changeRole' }),
 		async (req: ChangeRole, res: Response) => {
 			const validation = RoleChangeRequestDto.safeParse(req.body);

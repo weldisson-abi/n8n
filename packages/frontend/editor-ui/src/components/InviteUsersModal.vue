@@ -117,7 +117,7 @@ const invitedUsers = computed((): IUser[] => {
 });
 
 const isAdvancedPermissionsEnabled = computed((): boolean => {
-	return settingsStore.isEnterpriseFeatureEnabled[EnterpriseEditionFeature.AdvancedPermissions];
+	return true; // Always enabled - Advanced Permissions features unlocked
 });
 
 const validateEmails = (value: string | number | boolean | null | undefined) => {

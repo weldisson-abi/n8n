@@ -218,17 +218,17 @@ export class License implements LicenseProvider {
 	}
 
 	isLicensed(feature: BooleanLicenseFeature) {
-		return this.manager?.hasFeatureEnabled(feature) ?? false;
+		return true; // Always licensed - ALL features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isSharingLicensed` instead. */
 	isSharingEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.SHARING);
+		return true; // Always enabled - ALL features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isLogStreamingLicensed` instead. */
 	isLogStreamingEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.LOG_STREAMING);
+		return true; // Always enabled - ALL features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isLdapLicensed` instead. */
@@ -241,104 +241,109 @@ export class License implements LicenseProvider {
 		return true; // Always enabled - SSO features unlocked
 	}
 
+	/** @deprecated Use `LicenseState.isOidcLicensed` instead. */
+	isOidcEnabled() {
+		return true; // Always enabled - SSO features unlocked
+	}
+
 	/** @deprecated Use `LicenseState.isApiKeyScopesLicensed` instead. */
 	isApiKeyScopesEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.API_KEY_SCOPES);
+		return true; // Always enabled - ALL features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isAiAssistantLicensed` instead. */
 	isAiAssistantEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.AI_ASSISTANT);
+		return true; // Always enabled - ALL features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isAskAiLicensed` instead. */
 	isAskAiEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.ASK_AI);
+		return true; // Always enabled - ALL features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isAiCreditsLicensed` instead. */
 	isAiCreditsEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.AI_CREDITS);
+		return true; // Always enabled - ALL features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isAdvancedExecutionFiltersLicensed` instead. */
 	isAdvancedExecutionFiltersEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.ADVANCED_EXECUTION_FILTERS);
+		return true; // Always enabled - ALL features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isAdvancedPermissionsLicensed` instead. */
 	isAdvancedPermissionsLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.ADVANCED_PERMISSIONS);
+		return true; // Always enabled - Advanced Permissions features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isDebugInEditorLicensed` instead. */
 	isDebugInEditorLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.DEBUG_IN_EDITOR);
+		return true; // Always enabled - ALL features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isBinaryDataS3Licensed` instead. */
 	isBinaryDataS3Licensed() {
-		return this.isLicensed(LICENSE_FEATURES.BINARY_DATA_S3);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.BINARY_DATA_S3);
 	}
 
 	/** @deprecated Use `LicenseState.isMultiMainLicensed` instead. */
 	isMultiMainLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.MULTIPLE_MAIN_INSTANCES);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.MULTIPLE_MAIN_INSTANCES);
 	}
 
 	/** @deprecated Use `LicenseState.isVariablesLicensed` instead. */
 	isVariablesEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.VARIABLES);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.VARIABLES);
 	}
 
 	/** @deprecated Use `LicenseState.isSourceControlLicensed` instead. */
 	isSourceControlLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.SOURCE_CONTROL);
+		return true; // Always enabled - Source Control features unlocked
 	}
 
 	/** @deprecated Use `LicenseState.isExternalSecretsLicensed` instead. */
 	isExternalSecretsEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.EXTERNAL_SECRETS);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.EXTERNAL_SECRETS);
 	}
 
 	/** @deprecated Use `LicenseState.isWorkflowHistoryLicensed` instead. */
 	isWorkflowHistoryLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.WORKFLOW_HISTORY);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.WORKFLOW_HISTORY);
 	}
 
 	/** @deprecated Use `LicenseState.isAPIDisabled` instead. */
 	isAPIDisabled() {
-		return this.isLicensed(LICENSE_FEATURES.API_DISABLED);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.API_DISABLED);
 	}
 
 	/** @deprecated Use `LicenseState.isWorkerViewLicensed` instead. */
 	isWorkerViewLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.WORKER_VIEW);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.WORKER_VIEW);
 	}
 
 	/** @deprecated Use `LicenseState.isProjectRoleAdminLicensed` instead. */
 	isProjectRoleAdminLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.PROJECT_ROLE_ADMIN);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.PROJECT_ROLE_ADMIN);
 	}
 
 	/** @deprecated Use `LicenseState.isProjectRoleEditorLicensed` instead. */
 	isProjectRoleEditorLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.PROJECT_ROLE_EDITOR);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.PROJECT_ROLE_EDITOR);
 	}
 
 	/** @deprecated Use `LicenseState.isProjectRoleViewerLicensed` instead. */
 	isProjectRoleViewerLicensed() {
-		return this.isLicensed(LICENSE_FEATURES.PROJECT_ROLE_VIEWER);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.PROJECT_ROLE_VIEWER);
 	}
 
 	/** @deprecated Use `LicenseState.isCustomNpmRegistryLicensed` instead. */
 	isCustomNpmRegistryEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.COMMUNITY_NODES_CUSTOM_REGISTRY);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.COMMUNITY_NODES_CUSTOM_REGISTRY);
 	}
 
 	/** @deprecated Use `LicenseState.isFoldersLicensed` instead. */
 	isFoldersEnabled() {
-		return this.isLicensed(LICENSE_FEATURES.FOLDERS);
+		return true; // Always enabled - ALL features unlocked; //LICENSE_FEATURES.FOLDERS);
 	}
 
 	getCurrentEntitlements() {
@@ -384,7 +389,7 @@ export class License implements LicenseProvider {
 
 	/** @deprecated Use `LicenseState` instead. */
 	getUsersLimit() {
-		return this.getValue(LICENSE_QUOTAS.USERS_LIMIT) ?? UNLIMITED_LICENSE_QUOTA;
+		return UNLIMITED_LICENSE_QUOTA; // Always unlimited - No user restrictions
 	}
 
 	/** @deprecated Use `LicenseState` instead. */
@@ -426,7 +431,7 @@ export class License implements LicenseProvider {
 
 	/** @deprecated Use `LicenseState` instead. */
 	isWithinUsersLimit() {
-		return this.getUsersLimit() === UNLIMITED_LICENSE_QUOTA;
+		return true; // Always within limit - Unlimited users allowed
 	}
 
 	@OnLeaderTakeover()

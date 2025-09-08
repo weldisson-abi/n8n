@@ -6,7 +6,7 @@ import type {
 	InsightsByWorkflow,
 } from '@n8n/api-types';
 import { AuthenticatedRequest } from '@n8n/db';
-import { Get, GlobalScope, Licensed, Query, RestController } from '@n8n/decorators';
+import { Get, GlobalScope, Query, RestController } from '@n8n/decorators';
 import type { UserError } from 'n8n-workflow';
 
 import { InsightsService } from './insights.service';
@@ -50,7 +50,6 @@ export class InsightsController {
 
 	@Get('/by-workflow')
 	@GlobalScope('insights:list')
-	@Licensed('feat:insights:viewDashboard')
 	async getInsightsByWorkflow(
 		_req: AuthenticatedRequest,
 		_res: Response,
@@ -69,7 +68,7 @@ export class InsightsController {
 
 	@Get('/by-time')
 	@GlobalScope('insights:list')
-	@Licensed('feat:insights:viewDashboard')
+	// License validation removed - insights always enabled
 	async getInsightsByTime(
 		_req: AuthenticatedRequest,
 		_res: Response,
